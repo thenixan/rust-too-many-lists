@@ -15,11 +15,11 @@ enum Link {
 }
 
 impl List {
-    fn new() -> List {
+    pub fn new() -> List {
         List { head: Link::Empty }
     }
 
-    fn push(&mut self, elem: i32) {
+    pub fn push(&mut self, elem: i32) {
         let new_node = Box::new(Node {
             elem,
             next: mem::replace(&mut self.head, Link::Empty),
@@ -27,7 +27,7 @@ impl List {
         self.head = Link::More(new_node)
     }
 
-    fn pop(&mut self) -> Option<i32> {
+    pub fn pop(&mut self) -> Option<i32> {
         match mem::replace(&mut self.head, Link::Empty) {
             Link::Empty => Option::None,
             Link::More(boxed_node) => {
@@ -36,5 +36,33 @@ impl List {
                 Option::Some(node.elem)
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::List;
+
+    #[test]
+    fn basics() {
+        let mut list = List::new();
+
+        assert_eq!(list.pop(), None);
+
+        list.push(1);
+        list.push(2);
+        list.push(3);
+
+        assert_eq!(list.pop(), Some(3));
+        assert_eq!(list.pop(), Some(2));
+
+        list.push(4);
+        list.push(5);
+
+        assert_eq!(list.pop(), Some(5));
+        assert_eq!(list.pop(), Some(4));
+
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.pop(), None);
     }
 }
