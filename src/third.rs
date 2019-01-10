@@ -11,7 +11,7 @@ struct Node<T> {
     next: Link<T>,
 }
 
-pub struct Iter<'a, T:'a> {
+pub struct Iter<'a, T: 'a> {
     next: Option<&'a Node<T>>,
 }
 
@@ -50,6 +50,15 @@ impl<'a, T> Iterator for Iter<'a, T> {
             self.next = node.next.as_ref().map(|node| &**node);
             &node.elem
         })
+    }
+}
+
+impl<T> Drop for List<T> {
+    fn drop(&mut self) {
+        let mut cur_list = self.head.take();
+        while let Some(node) = cur_list {
+            cur_list = node.next.clone();
+        }
     }
 }
 
