@@ -18,11 +18,23 @@ impl List {
     fn new() -> List {
         List { head: Link::Empty }
     }
+
     fn push(&mut self, elem: i32) {
         let new_node = Box::new(Node {
             elem,
             next: mem::replace(&mut self.head, Link::Empty),
         });
         self.head = Link::More(new_node)
+    }
+
+    fn pop(&mut self) -> Option<i32> {
+        match mem::replace(&mut self.head, Link::Empty) {
+            Link::Empty => Option::None,
+            Link::More(boxed_node) => {
+                let node = *boxed_node;
+                self.head = node.next;
+                Option::Some(node.elem)
+            }
+        }
     }
 }
