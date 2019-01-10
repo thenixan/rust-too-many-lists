@@ -9,5 +9,11 @@ struct Node {
 
 enum Link {
     Empty,
-    More(Box<Node>)
+    More(Box<Node>),
+}
+
+impl List {
+    fn new() -> List {
+        List { head: Link::Empty }
+    }
 }
