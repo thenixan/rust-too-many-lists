@@ -1,0 +1,7 @@
+[package]
+name = "circular-list"
+version = "0.1.0"
+authors = ["Ilya Linnik <i.linnik@rambler-co.ru>"]
+edition = "2018"
+
+[dependencies]
